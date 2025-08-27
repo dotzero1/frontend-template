@@ -1,0 +1,23 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - corepack enable pnpm
+  pre_build:
+    commands:
+      - pnpm install --frozen-lockfile
+  build:
+    commands:
+      - pnpm build
+  post_build:
+    commands:
+      - aws s3 sync dist s3://$S3_BUCKET_NAME --delete --cache-control max-age=31536000,public --exclude index.html
+      - aws s3 cp dist/index.html s3://$S3_BUCKET_NAME/index.html --cache-control max-age=0,no-cache,no-store,must-revalidate
+      - |
+        if [ -n "$CLOUDFRONT_DISTRIBUTION_ID" ]; then
+          aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/index.html" "/"
+        fi
+artifacts:
+  files:
+    - dist/**/*
