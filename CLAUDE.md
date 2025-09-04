@@ -6,6 +6,7 @@
 - **Error Handling**: Handle null API responses gracefully
 
 ## API Endpoints
+An API Server already exists. These are the endpoints that you can call on the API server. Remember to use `credentials: 'include'`
 
 Base URL: `VITE_API_URL`
 
