@@ -25,8 +25,6 @@ Executes raw SQL queries on external PostgreSQL database.
 **Response:**
 ```json
 {
-  "success": true,
-  "error": "",
   "columns": ["id", "name", "email"],
   "rows": [
     {"id": 1, "name": "John Doe", "email": "john@example.com"},
